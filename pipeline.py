@@ -39,7 +39,7 @@ def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation)
     y = my_outcomes.bad_outcome
     x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=1, stratify=y)
 
-    xgb_model = xgb.XGBClassifier(n_jobs=1).fit(x_train, y_train)
+    xgb_model = xgb.XGBClassifier(n_jobs=1, use_label_encoder=False).fit(x_train, y_train)
     predictions = xgb_model.predict(x_test)
     print(confusion_matrix(y_test, predictions))
 
