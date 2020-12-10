@@ -39,10 +39,7 @@ def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation)
     y = my_outcomes.bad_outcome
     x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=1, stratify=y)
 
-    kf = KFold(n_splits=2, shuffle=True, random_state=my_random_state)
-    for train_index, test_index in kf.split(x_train):
-        xgb_model = xgb.XGBClassifier(n_jobs=1).fit(x_train[train_index], y_train[train_index])
-        predictions = xgb_model.predict(x_train[test_index])
-        actuals = y_train[test_index]
-        print(confusion_matrix(actuals, predictions))
+    xgb_model = xgb.XGBClassifier(n_jobs=1).fit(x_train, y_train)
+    predictions = xgb_model.predict(x_test)
+    print(confusion_matrix(y_test, predictions))
 
