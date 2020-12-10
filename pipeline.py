@@ -41,15 +41,31 @@ def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation)
     my_data = my_data.drop(columns='visit_occurrence_id')
     my_outcomes = data_and_outcomes.select(outcomes.columns).toPandas()
     y = my_outcomes.bad_outcome
-    x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=1, stratify=y)
+    x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=my_random_state, stratify=y)
 
-    xgb_model = xgb.XGBClassifier(n_jobs=2, use_label_encoder=False).fit(x_train, y_train)
-    y_pred = xgb_model.predict(x_test)
-    print(confusion_matrix(y_test, y_pred))
+    # n_estimators - 100 default
+    # learning_rate - 0.3 default
+    # gamma - 0 default
+    # booster – gbtree, gblinear or dart (gbtree default)
+    parameters = {
+        'n_estimators': [50,100,250,500,750,1000],
+        'learning_rate': [0.01, 0.03, 0.06, 1],
+        'booster': ['gbtree', 'gblinear', 'dart']
+    }
+    xgb_model = xgb.XGBClassifier(n_jobs=2,
+                                  use_label_encoder=False,
+                                  random_state=my_random_state)
 
-    y_pred = xgb_model.predict_proba(x_test)[:, 1]
-    print('ROC_AUC_SCORE: ', roc_auc_score(y_true=y_test, y_score=y_pred))
+    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=4)
+    gd.fit(x_train, y_train)
+    print(gd.best_params_)
 
-    stop = timeit.default_timer()
-    print('Time: ', stop - start)  
+    #y_pred = xgb_model.predict(x_test)
+    #print(confusion_matrix(y_test, y_pred))
+
+    #y_pred = xgb_model.predict_proba(x_test)[:, 1]
+    #print('ROC_AUC_SCORE: ', roc_auc_score(y_true=y_test, y_score=y_pred))
+
+    #stop = timeit.default_timer()
+    #print('Time: ', stop - start)  
 
