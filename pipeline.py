@@ -28,12 +28,12 @@ def data_encoded_and_outcomes(inpatient_encoded_w_imputation, outcomes):
     return i.join(o, on=['visit_occurrence_id'], how='inner')
 
 @transform_pandas(
-    Output(rid="ri.vector.main.execute.d699d42b-7448-42fc-85d3-ada317ac6e46"),
+    Output(rid="ri.foundry.main.dataset.aac0044e-56e7-4d52-8956-712c561864f1"),
     data_encoded_and_outcomes=Input(rid="ri.foundry.main.dataset.65022b1b-0ea5-4c2f-a577-49a867e3d07e"),
     inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd"),
     outcomes=Input(rid="ri.foundry.main.dataset.3d9b1654-3923-484f-8db5-6b38b56e290c")
 )
-def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
+def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     start = timeit.default_timer()
 
     data_and_outcomes = data_encoded_and_outcomes
