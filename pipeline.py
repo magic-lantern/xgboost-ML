@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split, GridSearchCV, KFold
 from sklearn.feature_selection import RFE, RFECV
 from sklearn.pipeline import Pipeline
 
+import timeit
+
 import xgboost as xgb
 
 # set standard random state for repeatability
@@ -32,6 +34,8 @@ def data_encoded_and_outcomes(inpatient_encoded_w_imputation, outcomes):
     outcomes=Input(rid="ri.foundry.main.dataset.3d9b1654-3923-484f-8db5-6b38b56e290c")
 )
 def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
+    start = timeit.default_timer()
+
     data_and_outcomes = data_encoded_and_outcomes
     my_data = data_and_outcomes.select(inpatient_encoded_w_imputation.columns).toPandas()
     my_data = my_data.drop(columns='visit_occurrence_id')
@@ -40,6 +44,12 @@ def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation)
     x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=1, stratify=y)
 
     xgb_model = xgb.XGBClassifier(n_jobs=1, use_label_encoder=False).fit(x_train, y_train)
-    predictions = xgb_model.predict(x_test)
-    print(confusion_matrix(y_test, predictions))
+    y_pred = xgb_model.predict(x_test)
+    print(confusion_matrix(y_test, y_pred))
+
+    y_pred = xgb_model.predict_proba(x_test)[:, 1]
+    print('ROC_AUC_SCORE: ', roc_auc_score(y_true=y_test, y_score=y_pred))
+
+    stop = timeit.default_timer()
+    print('Time: ', stop - start)  
 
