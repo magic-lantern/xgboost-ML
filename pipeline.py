@@ -12,6 +12,9 @@ from sklearn.pipeline import Pipeline
 
 import xgboost as xgb
 
+# set standard random state for repeatability
+my_random_state = 42
+
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.65022b1b-0ea5-4c2f-a577-49a867e3d07e"),
     inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd"),
@@ -36,7 +39,7 @@ def unnamed(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation)
     y = my_outcomes.bad_outcome
     x_train, x_test, y_train, y_test = train_test_split(my_data, y, test_size=0.3, random_state=1, stratify=y)
 
-    kf = KFold(n_splits=2, shuffle=True, random_state=rng)
+    kf = KFold(n_splits=2, shuffle=True, random_state=my_random_state)
     for train_index, test_index in kf.split(x_train):
         xgb_model = xgb.XGBClassifier(n_jobs=1).fit(x_train[train_index], y_train[train_index])
         predictions = xgb_model.predict(x_train[test_index])
