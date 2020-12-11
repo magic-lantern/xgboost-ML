@@ -48,7 +48,7 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # gamma - 0 default
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
-        'n_estimators': [50,100,250,500,750,1000,1250],
+        'n_estimators': [250,500,750,1000,1250],
         'learning_rate': [0.005, 0.01, 0.03, 0.06, 1],
         'booster': ['gbtree', 'gblinear', 'dart']
     }
@@ -56,7 +56,7 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
     # took 2h 45min
 
-    xgb_model = xgb.XGBClassifier(n_jobs=2,
+    xgb_model = xgb.XGBClassifier(n_jobs=4,
                                   use_label_encoder=False,
                                   random_state=my_random_state)
 
