@@ -52,6 +52,10 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
         'learning_rate': [0.005, 0.01, 0.03, 0.06, 1],
         'booster': ['gbtree', 'gblinear', 'dart']
     }
+    # with the above options, best is:
+    # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
+    # took 2h 45min
+
     xgb_model = xgb.XGBClassifier(n_jobs=2,
                                   use_label_encoder=False,
                                   random_state=my_random_state)
