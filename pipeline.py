@@ -48,8 +48,8 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # gamma - 0 default
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
-        'n_estimators': [250,500,750,1000,1250],
-        'learning_rate': [0.005, 0.01, 0.03, 0.06, 1],
+        'n_estimators': [750,1000,1250],
+        'learning_rate': [0.008, 0.01, 0.02, 0.03],
         'booster': ['gbtree', 'gblinear', 'dart']
     }
     # with the above options, best is:
@@ -60,7 +60,7 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
                                   use_label_encoder=False,
                                   random_state=my_random_state)
 
-    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=5)
+    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=5, verbose=2)
     gd.fit(x_train, y_train)
     print(gd.best_params_)
     # from run before data update
