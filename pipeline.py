@@ -59,6 +59,8 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=4)
     gd.fit(x_train, y_train)
     print(gd.best_params_)
+    # from run before data update
+    # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1000}
 
     #y_pred = xgb_model.predict(x_test)
     #print(confusion_matrix(y_test, y_pred))
