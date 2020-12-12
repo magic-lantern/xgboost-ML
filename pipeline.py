@@ -56,11 +56,12 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
     # took 2h 45min
 
-    xgb_model = xgb.XGBClassifier(n_jobs=4,
+    xgb_model = xgb.XGBClassifier(n_jobs=2,
                                   use_label_encoder=False,
-                                  random_state=my_random_state)
+                                  random_state=my_random_state,
+                                  objective = 'binary:logistic')
 
-    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=5, verbose=2)
+    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=-1, verbose=2)
     gd.fit(x_train, y_train)
     print(gd.best_params_)
     # from run before data update
