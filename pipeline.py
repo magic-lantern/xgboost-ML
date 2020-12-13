@@ -48,15 +48,16 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # gamma - 0 default
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
-        'n_estimators': [750,1000,1250],
-        'learning_rate': [0.008, 0.01, 0.02, 0.03],
-        'booster': ['gbtree', 'gblinear', 'dart']
+        'n_estimators': [500,750,1000,1250],
+        #'learning_rate': [0.008, 0.01, 0.02, 0.03],
+        'learning_rate': np.arange(0.001, 0.2 , 0.0025)
+        'booster': ['gbtree']
     }
     # with the above options, best is:
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
     # took 2h 45min
 
-    xgb_model = xgb.XGBClassifier(n_jobs=2,
+    xgb_model = xgb.XGBClassifier(n_jobs=1,
                                   use_label_encoder=False,
                                   random_state=my_random_state,
                                   objective = 'binary:logistic')
