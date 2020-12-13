@@ -50,7 +50,7 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     parameters = {
         'n_estimators': [500,750,1000,1250],
         #'learning_rate': [0.008, 0.01, 0.02, 0.03],
-        'learning_rate': np.arange(0.001, 0.2 , 0.0025)
+        'learning_rate': np.arange(0.001, 0.2 , 0.0025),
         'booster': ['gbtree']
     }
     # with the above options, best is:
