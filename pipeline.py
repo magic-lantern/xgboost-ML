@@ -48,10 +48,10 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # gamma - 0 default
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
-        'n_estimators': [500,750,1000,1250],
-        #'learning_rate': [0.008, 0.01, 0.02, 0.03],
-        'learning_rate': np.arange(0.001, 0.2 , 0.0025),
-        'booster': ['gbtree']
+        'n_estimators': range(250,1350,250),
+        'learning_rate': [0.001, 0.01, 0.03, 0.07, 1.0, 2.0],
+        #'learning_rate': np.arange(0.001, 0.2 , 0.0025),
+        'booster': ['gbtree', 'gblinear', 'dart']
     }
     # with the above options, best is:
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
@@ -62,7 +62,12 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
                                   random_state=my_random_state,
                                   objective = 'binary:logistic')
 
-    gd = GridSearchCV(estimator=xgb_model, param_grid=parameters, cv=5, n_jobs=-1, verbose=2)
+    gd = GridSearchCV(estimator=xgb_model,
+                      param_grid=parameters,
+                      cv=5,
+                      n_jobs=-1,
+                      verbose=3,
+                      scoring='roc_auc')
     gd.fit(x_train, y_train)
     print(gd.best_params_)
     # from run before data update
