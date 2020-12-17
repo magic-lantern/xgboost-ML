@@ -19,8 +19,7 @@ my_random_state = 42
 
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.65022b1b-0ea5-4c2f-a577-49a867e3d07e"),
-    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd"),
-    outcomes=Input(rid="ri.foundry.main.dataset.3d9b1654-3923-484f-8db5-6b38b56e290c")
+    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd")
 )
 def data_encoded_and_outcomes(inpatient_encoded_w_imputation, outcomes):
     i = inpatient_encoded_w_imputation
@@ -30,8 +29,7 @@ def data_encoded_and_outcomes(inpatient_encoded_w_imputation, outcomes):
 @transform_pandas(
     Output(rid="ri.foundry.main.dataset.aac0044e-56e7-4d52-8956-712c561864f1"),
     data_encoded_and_outcomes=Input(rid="ri.foundry.main.dataset.65022b1b-0ea5-4c2f-a577-49a867e3d07e"),
-    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd"),
-    outcomes=Input(rid="ri.foundry.main.dataset.3d9b1654-3923-484f-8db5-6b38b56e290c")
+    inpatient_encoded_w_imputation=Input(rid="ri.foundry.main.dataset.d3578a81-014a-49a6-9887-53d296155bdd")
 )
 def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     start = timeit.default_timer()
