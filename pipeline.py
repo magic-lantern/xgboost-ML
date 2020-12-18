@@ -49,10 +49,10 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # gamma - 0 default
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
-        'n_estimators': range(500,1350,500),
-        'learning_rate': [0.001, 0.01, 0.03, 0.07, 1.0, 2.0],
+        'n_estimators': range(500,1350,50),
+        'learning_rate': [0.001, 0.01, 0.03, 0.07, 1.0, 2.0, 10],
         #'learning_rate': np.arange(0.001, 0.2 , 0.0025),
-        'booster': ['gbtree']#, 'gblinear', 'dart']
+        'booster': ['gbtree', 'gblinear', 'dart']
     }
     # with the above options, best is:
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
