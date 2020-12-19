@@ -50,15 +50,16 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     # booster – gbtree, gblinear or dart (gbtree default)
     parameters = {
         'n_estimators': range(500,1350,50),
-        'learning_rate': [0.001, 0.01, 0.03, 0.07, 1.0, 2.0, 10],
-        #'learning_rate': np.arange(0.001, 0.2 , 0.0025),
-        'booster': ['gbtree', 'gblinear', 'dart']
+        #'learning_rate': [0.001, 0.01, 0.03, 0.07, 1.0, 2.0, 10],
+        'learning_rate': np.arange(0.001, 0.2 , 0.0025),
+        #'booster': ['gbtree', 'gblinear', 'dart']
+        'booster': ['gbtree']
     }
     # with the above options, best is:
     # {'booster': 'gbtree', 'learning_rate': 0.01, 'n_estimators': 1250}
     # took 2h 45min
 
-    xgb_model = xgb.XGBClassifier(n_jobs=2,
+    xgb_model = xgb.XGBClassifier(n_jobs=1,
                                   use_label_encoder=False,
                                   random_state=my_random_state,
                                   objective = 'binary:logistic')
@@ -66,7 +67,7 @@ def xbg_gs(data_encoded_and_outcomes, outcomes, inpatient_encoded_w_imputation):
     gd = GridSearchCV(estimator=xgb_model,
                       param_grid=parameters,
                       cv=5,
-                      n_jobs=8,
+                      n_jobs=-1,
                       verbose=3,
                       scoring='roc_auc')
     gd.fit(x_train, y_train)
